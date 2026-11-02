@@ -3,8 +3,11 @@
 body { font-family: system-ui, Arial, sans-serif; font-size: 1.0625rem; line-height: 1.5; color: var(--texto); background: var(--fundo); margin: 0; }
 .pular { position: absolute; left: -999px; background: #fff; padding: .5rem 1rem; }
 .pular:focus { left: 0; z-index: 10; }
-.pular:nth-child(2):focus { left: 14rem; }
-.pular:nth-child(3):focus { left: 24rem; }
+#atalhos { list-style: none; margin: 0; padding: 0; }
+.pular[accesskey="2"]:focus { left: 16rem; }
+.pular[accesskey="3"]:focus { left: 32rem; }
+.pular[accesskey="4"]:focus { left: 48rem; }
+.ancora { position: absolute; left: -999em; }
 header { background: var(--destaque); color: #fff; padding: .75rem 1.5rem; display: flex; flex-wrap: wrap; gap: .5rem 2rem; align-items: center; }
 .marca { margin: 0; font-size: 1.4rem; font-weight: 700; }
 .marca span { font-size: .9rem; font-weight: 400; margin-left: .5rem; }
@@ -36,4 +39,4 @@ input, select { font: inherit; padding: .4rem; border: 2px solid var(--borda); b
 fieldset { border: 0; margin: 0; padding: 0; }
 legend { font-weight: 600; padding: 0; margin-bottom: .75rem; }
 footer { margin-top: 2rem; padding: 1rem 1.5rem; border-top: 1px solid var(--borda); font-size: .9rem; }
-#menu:focus, #rodape:focus, #conteudo:focus { outline: 3px solid #ffbf47; outline-offset: 2px; }
+#conteudo:focus { outline: 3px solid #ffbf47; outline-offset: 2px; }
