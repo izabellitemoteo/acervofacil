@@ -1,0 +1,38 @@
+{% load static %}<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Acervo Fácil{% endblock %} – Acervo Fácil</title>
+  <link rel="stylesheet" href="{% static 'biblioteca/estilo.css' %}">
+</head>
+<body>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+  <header>
+    <p class="marca">Acervo Fácil <span>Biblioteca do MPCSP</span></p>
+    {% if user.is_authenticated %}
+    <nav aria-label="Principal">
+      <ul>
+        <li><a href="{% url 'obras' %}" {% if request.resolver_match.url_name == 'obras' %}aria-current="page"{% endif %}>Acervo</a></li>
+        <li><a href="{% url 'nova_obra' %}" {% if request.resolver_match.url_name == 'nova_obra' %}aria-current="page"{% endif %}>Nova obra</a></li>
+        <li><a href="{% url 'novo_emprestimo' %}" {% if request.resolver_match.url_name == 'novo_emprestimo' %}aria-current="page"{% endif %}>Novo empréstimo</a></li>
+        <li><a href="{% url 'emprestimos_abertos' %}" {% if request.resolver_match.url_name == 'emprestimos_abertos' %}aria-current="page"{% endif %}>Empréstimos em aberto</a></li>
+        <li><a href="{% url 'admin:index' %}">Cadastros</a></li>
+      </ul>
+      <form method="post" action="{% url 'logout' %}" class="sair">
+        {% csrf_token %}<button type="submit">Sair ({{ user.username }})</button>
+      </form>
+    </nav>
+    {% endif %}
+  </header>
+  <main id="conteudo" tabindex="-1">
+    {% if messages %}
+    <div role="status">
+      {% for m in messages %}<p class="aviso aviso-{{ m.tags }}">{{ m }}</p>{% endfor %}
+    </div>
+    {% endif %}
+    {% block conteudo %}{% endblock %}
+  </main>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

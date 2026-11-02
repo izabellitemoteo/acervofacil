@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block titulo %}Nova obra{% endblock %}
+{% block conteudo %}
+<h1>Nova obra</h1>
+{% if form.errors %}
+<div class="aviso aviso-error" role="alert">
+  <p>Não foi possível cadastrar a obra. Corrija:</p>
+  <ul>{% for campo, erros in form.errors.items %}{% for e in erros %}<li>{{ e }}</li>{% endfor %}{% endfor %}</ul>
+</div>
+{% endif %}
+<form method="post" class="formulario" id="form-obra">
+  {% csrf_token %}
+  <div class="campo">
+    <label for="{{ form.isbn.id_for_label }}">{{ form.isbn.label }}</label>
+    {{ form.isbn }}
+    <button type="button" id="buscar-isbn" data-url="{% url 'consultar_isbn' %}">Buscar dados pelo ISBN</button>
+    <p id="resultado-isbn" role="status" aria-live="polite" class="dica"></p>
+  </div>
+  {% for campo in form %}{% if campo.name != "isbn" %}
+  <div class="campo">
+    <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+    {{ campo }}
+  </div>
+  {% endif %}{% endfor %}
+  <p class="dica">Os códigos dos exemplares são gerados a partir do número da obra no catálogo, até que a numeração do órgão seja adotada.</p>
+  <button type="submit">Cadastrar obra</button>
+</form>
+{% endblock %}
+{% block scripts %}
+{% load static %}<script src="{% static 'biblioteca/isbn.js' %}"></script>
+{% endblock %}

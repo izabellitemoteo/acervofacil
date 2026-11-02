@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block titulo %}Empréstimos em aberto{% endblock %}
+{% block conteudo %}
+<h1>Empréstimos em aberto</h1>
+<table>
+  <caption>Livros emprestados e ainda não devolvidos</caption>
+  <thead>
+    <tr><th scope="col">Exemplar</th><th scope="col">Título</th><th scope="col">Leitor</th><th scope="col">Emprestado em</th><th scope="col">Devolução prevista</th><th scope="col">Ação</th></tr>
+  </thead>
+  <tbody>
+  {% for e in emprestimos %}
+    <tr>
+      <td>{{ e.exemplar.codigo }}</td>
+      <th scope="row">{{ e.exemplar.obra.titulo }}</th>
+      <td>{{ e.leitor.nome }}</td>
+      <td>{{ e.data_emprestimo|date:"d/m/Y" }}</td>
+      <td>{{ e.data_prevista|date:"d/m/Y" }}{% if e.atrasado %} <strong class="indisp">(em atraso)</strong>{% endif %}</td>
+      <td>
+        <form method="post" action="{% url 'devolver' e.pk %}">
+          {% csrf_token %}
+          <button type="submit" aria-label="Registrar devolução de {{ e.exemplar.obra.titulo }}">Registrar devolução</button>
+        </form>
+      </td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="6">Nenhum empréstimo em aberto.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
