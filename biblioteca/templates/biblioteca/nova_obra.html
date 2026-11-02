@@ -16,7 +16,7 @@
     <label for="{{ form.isbn.id_for_label }}">{{ form.isbn.label }}</label>
     {{ form.isbn }}
     <button type="button" id="buscar-isbn" data-url="{% url 'consultar_isbn' %}">Buscar dados pelo ISBN</button>
-    <p id="resultado-isbn" role="status" aria-live="polite" class="dica"></p>
+    <div id="resultado-isbn" role="status" aria-live="polite" class="dica">Digite o ISBN e use o botão para preencher os dados automaticamente.</div>
   </div>
   {% for campo in form %}{% if campo.name != "isbn" %}
   <div class="campo">
@@ -31,4 +31,5 @@
 {% endblock %}
 {% block scripts %}
 {% load static %}<script src="{% static 'biblioteca/isbn.js' %}"></script>
+<noscript><p class="dica">A busca automática pelo ISBN depende de JavaScript, que está desativado. Preencha os dados da obra manualmente; o cadastro funciona normalmente.</p></noscript>
 {% endblock %}
