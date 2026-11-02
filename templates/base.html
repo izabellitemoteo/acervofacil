@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block titulo %}Acervo Fácil{% endblock %} – Acervo Fácil</title>
   <link rel="stylesheet" href="{% static 'biblioteca/estilo.css' %}">
-  <style>
-    a:focus, button:focus, input:focus, select:focus, textarea:focus { outline: 3px solid #ffbf47; outline-offset: 2px; }
-  </style>
 </head>
 <body>
   <ul id="atalhos">
@@ -20,7 +17,7 @@
     <p class="marca">Acervo Fácil <span>Biblioteca do MPCSP</span></p>
     {% if user.is_authenticated %}
     <nav aria-label="Principal">
-      <a id="irmenu" name="irmenu" class="ancora">Início do menu</a>
+      <a id="irmenu" name="irmenu" href="#irmenu" tabindex="-1" class="ancora">Início do menu</a>
       <ul>
         <li><a href="{% url 'obras' %}" {% if request.resolver_match.url_name == 'obras' %}aria-current="page"{% endif %}>Acervo</a></li>
         <li><a href="{% url 'nova_obra' %}" {% if request.resolver_match.url_name == 'nova_obra' %}aria-current="page"{% endif %}>Nova obra</a></li>
@@ -35,7 +32,7 @@
     {% endif %}
   </header>
   <main id="conteudo" tabindex="-1">
-    <a id="irconteudo" name="irconteudo" class="ancora">Início do conteúdo</a>
+    <a id="irconteudo" name="irconteudo" href="#irconteudo" tabindex="-1" class="ancora">Início do conteúdo</a>
     {% if messages %}
     <div role="status">
       {% for m in messages %}<p class="aviso aviso-{{ m.tags }}">{{ m }}</p>{% endfor %}
@@ -44,7 +41,7 @@
     {% block conteudo %}{% endblock %}
   </main>
   <footer>
-    <a id="irrodape" name="irrodape" class="ancora">Início do rodapé</a>
+    <a id="irrodape" name="irrodape" href="#irrodape" tabindex="-1" class="ancora">Início do rodapé</a>
     <p>Acervo Fácil – Projeto Integrador II, Univesp. Biblioteca do MPCSP.</p>
   </footer>
   {% block scripts %}{% endblock %}

@@ -3,7 +3,7 @@
 {% block atalho_busca %}<li><a class="pular" href="#irbusca" accesskey="3">Ir para a busca [3]</a></li>{% endblock %}
 {% block conteudo %}
 <h1>Acervo</h1>
-<a id="irbusca" name="irbusca" class="ancora">Início da busca</a>
+<a id="irbusca" name="irbusca" href="#irbusca" tabindex="-1" class="ancora">Início da busca</a>
 <form method="get" class="busca" role="search">
   <label for="filtro">Buscar por título, autor ou assunto</label>
   <input type="search" id="filtro" name="q" value="{{ q }}" autocomplete="off" aria-controls="tabela-obras">
