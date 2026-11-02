@@ -10,6 +10,8 @@
 {% endif %}
 <form method="post" class="formulario" id="form-obra">
   {% csrf_token %}
+  <fieldset>
+  <legend>Dados da obra</legend>
   <div class="campo">
     <label for="{{ form.isbn.id_for_label }}">{{ form.isbn.label }}</label>
     {{ form.isbn }}
@@ -22,6 +24,7 @@
     {{ campo }}
   </div>
   {% endif %}{% endfor %}
+  </fieldset>
   <p class="dica">Os códigos dos exemplares são gerados a partir do número da obra no catálogo, até que a numeração do órgão seja adotada.</p>
   <button type="submit">Cadastrar obra</button>
 </form>

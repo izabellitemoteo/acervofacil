@@ -7,11 +7,15 @@
   <link rel="stylesheet" href="{% static 'biblioteca/estilo.css' %}">
 </head>
 <body>
-  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+  <div class="atalhos">
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+    {% if user.is_authenticated %}<a class="pular" href="#menu">Ir para o menu</a>{% endif %}
+    <a class="pular" href="#rodape">Ir para o rodapé</a>
+  </div>
   <header>
     <p class="marca">Acervo Fácil <span>Biblioteca do MPCSP</span></p>
     {% if user.is_authenticated %}
-    <nav aria-label="Principal">
+    <nav aria-label="Principal" id="menu" tabindex="-1">
       <ul>
         <li><a href="{% url 'obras' %}" {% if request.resolver_match.url_name == 'obras' %}aria-current="page"{% endif %}>Acervo</a></li>
         <li><a href="{% url 'nova_obra' %}" {% if request.resolver_match.url_name == 'nova_obra' %}aria-current="page"{% endif %}>Nova obra</a></li>
@@ -33,6 +37,9 @@
     {% endif %}
     {% block conteudo %}{% endblock %}
   </main>
+  <footer id="rodape" tabindex="-1">
+    <p>Acervo Fácil – Projeto Integrador II, Univesp. Biblioteca do MPCSP.</p>
+  </footer>
   {% block scripts %}{% endblock %}
 </body>
 </html>

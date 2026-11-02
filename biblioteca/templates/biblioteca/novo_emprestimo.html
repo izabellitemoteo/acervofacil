@@ -10,12 +10,15 @@
 {% endif %}
 <form method="post" class="formulario">
   {% csrf_token %}
+  <fieldset>
+  <legend>Dados do empréstimo</legend>
   {% for campo in form %}
   <div class="campo">
     <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
     {{ campo }}
   </div>
   {% endfor %}
+  </fieldset>
   <p class="dica">A devolução é prevista para 14 dias após o empréstimo.</p>
   <button type="submit">Registrar empréstimo</button>
 </form>

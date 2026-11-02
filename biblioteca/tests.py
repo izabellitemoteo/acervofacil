@@ -186,3 +186,11 @@ class ApiBibliograficaTest(TestCase):
         obra = Obra.objects.get(titulo="Livro Novo")
         self.assertEqual(obra.total_exemplares, 2)
         self.assertTrue(obra.exemplares.filter(codigo=f"{obra.numero:03d}-1").exists())
+
+
+class RotulosEmPortuguesTest(TestCase):
+    def test_listas_do_emprestimo_nao_usam_texto_em_ingles(self):
+        from .forms import EmprestimoForm
+        f = EmprestimoForm()
+        self.assertEqual(f.fields["exemplar"].empty_label, "Selecione um exemplar")
+        self.assertEqual(f.fields["leitor"].empty_label, "Selecione um leitor")
