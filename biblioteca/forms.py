@@ -15,6 +15,8 @@ class EmprestimoForm(forms.ModelForm):
         # Só exemplares sem empréstimo em aberto aparecem na lista.
         livres = [e.pk for e in Exemplar.objects.select_related("obra") if e.disponivel]
         self.fields["exemplar"].queryset = Exemplar.objects.filter(pk__in=livres).select_related("obra")
+        self.fields["exemplar"].empty_label = "Selecione um exemplar"
+        self.fields["leitor"].empty_label = "Selecione um leitor"
 
 
 class ObraForm(forms.ModelForm):
