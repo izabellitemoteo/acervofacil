@@ -29,6 +29,10 @@ class Obra(models.Model):
         return self.exemplares.count()
 
     @property
+    def codigos(self):
+        return ", ".join(e.codigo for e in self.exemplares.all())
+
+    @property
     def exemplares_disponiveis(self):
         return sum(1 for e in self.exemplares.all() if e.disponivel)
 

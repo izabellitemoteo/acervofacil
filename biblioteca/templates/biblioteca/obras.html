@@ -5,7 +5,7 @@
 <h1>Acervo</h1>
 <a id="irbusca" name="irbusca" href="#irbusca" tabindex="-1" class="ancora">Início da busca</a>
 <form method="get" class="busca" role="search">
-  <label for="filtro">Buscar por título, autor ou assunto</label>
+  <label for="filtro">Buscar por título, autor, assunto ou código do exemplar</label>
   <input type="search" id="filtro" name="q" value="{{ q }}" autocomplete="off" aria-controls="tabela-obras">
   <button type="submit">Buscar</button>
 </form>
@@ -13,7 +13,7 @@
 <table id="tabela-obras">
   <caption>Obras do acervo e disponibilidade dos exemplares</caption>
   <thead>
-    <tr><th scope="col">Título</th><th scope="col">Autor</th><th scope="col">Assunto</th><th scope="col">Disponíveis</th></tr>
+    <tr><th scope="col">Título</th><th scope="col">Autor</th><th scope="col">Assunto</th><th scope="col">Códigos dos exemplares</th><th scope="col">Disponíveis</th></tr>
   </thead>
   <tbody>
   {% for o in obras %}
@@ -21,16 +21,18 @@
       <th scope="row">{{ o.titulo }}</th>
       <td>{{ o.autor|default:"—" }}</td>
       <td>{{ o.assunto|default:"—" }}</td>
+      <td>{{ o.codigos|default:"—" }}</td>
       <td>
         {% if o.exemplares_disponiveis %}<span class="ok">{{ o.exemplares_disponiveis }} de {{ o.total_exemplares }}</span>
         {% else %}<span class="indisp">Nenhum de {{ o.total_exemplares }}</span>{% endif %}
       </td>
     </tr>
   {% empty %}
-    <tr><td colspan="4">Nenhuma obra encontrada.</td></tr>
+    <tr><td colspan="5">Nenhuma obra encontrada.</td></tr>
   {% endfor %}
   </tbody>
 </table>
+<p><a href="{% url 'exportar_acervo' %}">Exportar acervo completo (arquivo CSV para o Excel)</a></p>
 {% endblock %}
 {% block scripts %}
 {% load static %}<script src="{% static 'biblioteca/filtro.js' %}"></script>

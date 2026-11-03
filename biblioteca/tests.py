@@ -194,3 +194,49 @@ class RotulosEmPortuguesTest(TestCase):
         f = EmprestimoForm()
         self.assertEqual(f.fields["exemplar"].empty_label, "Selecione um exemplar")
         self.assertEqual(f.fields["leitor"].empty_label, "Selecione um leitor")
+
+
+class BuscaPorCodigoEExportacaoTest(BaseTeste):
+    def setUp(self):
+        super().setUp()
+        User.objects.create_user("bib", password="senha-forte-123")
+        self.client.login(username="bib", password="senha-forte-123")
+
+    def test_busca_por_codigo_do_exemplar(self):
+        outra = Obra.objects.create(titulo="Outro Livro")
+        Exemplar.objects.create(obra=outra, codigo="X-9")
+        r = self.client.get(reverse("obras"), {"q": "X-9"})
+        self.assertContains(r, "Outro Livro")
+        self.assertNotContains(r, "Livro de Teste")
+
+    def test_busca_por_codigo_nao_duplica_obra(self):
+        r = self.client.get(reverse("obras"), {"q": "T-"})
+        self.assertEqual(len(r.context["obras"]), 1)
+
+    def test_exporta_acervo_em_csv(self):
+        Emprestimo.objects.create(exemplar=self.ex1, leitor=self.leitor)
+        r = self.client.get(reverse("exportar_acervo"))
+        self.assertEqual(r.status_code, 200)
+        texto = r.content.decode("utf-8-sig")
+        self.assertIn("Código do exemplar", texto)
+        self.assertIn("T-1;Livro de Teste;Autor", texto)
+        self.assertIn("Emprestado", texto)
+        self.assertIn("Disponível", texto)
+
+    def test_exporta_emprestimos_em_csv(self):
+        Emprestimo.objects.create(exemplar=self.ex1, leitor=self.leitor)
+        r = self.client.get(reverse("exportar_emprestimos"))
+        texto = r.content.decode("utf-8-sig")
+        self.assertIn("T-1;Livro de Teste;Maria", texto)
+        self.assertIn("Em aberto", texto)
+
+    def test_exportacao_neutraliza_formulas(self):
+        self.obra.titulo = "=1+1"
+        self.obra.save()
+        texto = self.client.get(reverse("exportar_acervo")).content.decode("utf-8-sig")
+        self.assertIn("'=1+1", texto)
+
+    def test_exportacao_exige_login(self):
+        self.client.logout()
+        self.assertEqual(self.client.get(reverse("exportar_acervo")).status_code, 302)
+        self.assertEqual(self.client.get(reverse("exportar_emprestimos")).status_code, 302)
