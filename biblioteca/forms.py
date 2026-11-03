@@ -28,6 +28,7 @@ class ObraForm(forms.ModelForm):
         model = Obra
         fields = ["isbn", "titulo", "autor", "assunto", "editora", "ano"]
         labels = {"isbn": "ISBN (opcional, permite preencher os dados automaticamente)"}
+        widgets = {"isbn": forms.TextInput(attrs={"aria-describedby": "resultado-isbn"})}
 
     def save(self, commit=True):
         obra = super().save(commit=False)

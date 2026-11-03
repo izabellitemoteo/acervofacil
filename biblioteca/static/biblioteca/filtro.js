@@ -4,6 +4,7 @@
   var linhas = document.querySelectorAll("#tabela-obras tbody tr");
   var contagem = document.getElementById("contagem");
   if (!campo || !contagem) { return; }
+  var temporizador;
 
   function normalizar(texto) {
     return texto.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
@@ -17,6 +18,11 @@
       linha.hidden = !mostra;
       if (mostra) { visiveis++; }
     });
-    contagem.textContent = visiveis + (visiveis === 1 ? " obra exibida." : " obras exibidas.");
+    // Atualiza a contagem só quando a digitação faz uma pausa, para o leitor de tela
+    // não anunciar um número a cada tecla.
+    clearTimeout(temporizador);
+    temporizador = setTimeout(function () {
+      contagem.textContent = visiveis + (visiveis === 1 ? " obra exibida." : " obras exibidas.");
+    }, 600);
   });
 })();
