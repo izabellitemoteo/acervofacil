@@ -1,5 +1,7 @@
 # Acervo Fácil
 
+**Sistema publicado:** https://acervofacil.pythonanywhere.com
+
 Aplicação web (Django) para controlar os empréstimos da biblioteca do MPCSP.
 Projeto Integrador II – Univesp.
 
